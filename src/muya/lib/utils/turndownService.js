@@ -8,6 +8,18 @@ export const usePluginAddRules = (turndownService, keeps) => {
   const { gfm } = turndownPluginGfm
   turndownService.use(gfm)
 
+  turndownService.addRule('crossref', {
+    filter: function (node) {
+      return (
+        node.nodeName === 'A' &&
+        node.classList.contains('ag-crossref-link')
+      )
+    },
+    replacement: function (content) {
+      return '[[' + content + ']]'
+    }
+  })
+
   // We need a extra strikethrough rule because the strikethrough rule in gfm is single `~`.
   turndownService.addRule('strikethrough', {
     filter: ['del', 's', 'strike'],

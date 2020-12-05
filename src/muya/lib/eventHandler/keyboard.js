@@ -204,6 +204,17 @@ class Keyboard {
         this.muya.dispatchChange()
       }
 
+      const { paragraph: crossrefParagraph, text } = contentState.checkEditCrossref()
+      if (crossrefParagraph) {
+        eventCenter.dispatch('muya-crossref-picker', {
+          reference: getParagraphReference(crossrefParagraph, crossrefParagraph.id),
+          text: text,
+          cb: item => {
+            contentState.updateLink(item.name)
+          }
+        })
+      }
+
       const { lang, paragraph } = contentState.checkEditLanguage()
       if (lang) {
         eventCenter.dispatch('muya-code-picker', {

@@ -432,6 +432,7 @@ class Muya {
     this.tablePicker.destroy()
     this.emojiPicker.destroy()
     this.imagePathPicker.destroy()
+    this.crossrefPicker.destroy()
     this.eventCenter.detachAllDomEvents()
   }
 }

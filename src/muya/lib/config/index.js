@@ -74,6 +74,8 @@ export const CLASS_OR_ID = Object.freeze(genUpper2LowerKeyHash([
   'AG_CONTAINER_PREVIEW',
   'AG_CONTAINER_ICON',
   'AG_COPY_REMOVE',
+  'AG_CROSSREF',
+  'AG_CROSSREF_LINK',
   'AG_EDITOR_ID',
   'AG_EMOJI_MARKED_TEXT',
   'AG_EMOJI_MARKER',
@@ -280,6 +282,7 @@ export const MUYA_DEFAULT_OPTION = Object.freeze({
   // image path auto completed when you input in image selector.
   imagePathAutoComplete: () => [],
 
+  crossrefAutoComplete: () => [],
   // Markdown extensions
   superSubScript: false,
   footnote: false,

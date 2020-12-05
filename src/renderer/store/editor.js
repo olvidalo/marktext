@@ -339,6 +339,10 @@ const actions = {
     ipcRenderer.send('mt::format-link-click', { data, dirname })
   },
 
+  CROSSREF_CLICK ({ commit }, { pathname }) {
+    ipcRenderer.send('mt::crossref-click', { pathname })
+  },
+
   LISTEN_SCREEN_SHOT ({ commit }) {
     ipcRenderer.on('mt::screenshot-captured', e => {
       bus.$emit('screenshot-captured')

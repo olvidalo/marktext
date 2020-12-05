@@ -112,6 +112,9 @@ const clickCtrl = ContentState => {
           } else if (inlineNode.classList.contains('ag-math-text')) {
             formatType = 'inline_math'
             data = inlineNode.textContent
+          } else if (inlineNode.classList.contains('ag-crossref')) {
+            formatType = 'crossref'
+            data = inlineNode.textContent
           }
           break
         }
