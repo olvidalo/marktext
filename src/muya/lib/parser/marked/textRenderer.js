@@ -32,6 +32,10 @@ TextRenderer.prototype.footnoteIdentifier = function (identifier, { footnoteId, 
   return `<a href="#${footnoteId ? `fn${footnoteId}` : ''}" class="footnote-ref" id="fnref${footnoteIdentifierId}" role="doc-noteref"><sup>${order || identifier}</sup></a>`
 }
 
+TextRenderer.prototype.citation = function (key) {
+  return `<a href="#" class="citation-ref" id="citation${key}" role="doc-noteref"><sup>${key}</sup></a>`
+}
+
 TextRenderer.prototype.link =
 TextRenderer.prototype.image = function (href, title, text) {
   return '' + text

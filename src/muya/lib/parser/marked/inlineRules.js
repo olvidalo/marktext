@@ -42,7 +42,8 @@ const inline = {
   // superscript and subScript
   superscript: /^(\^)((?:[^\^\s]|(?<=\\)\1|(?<=\\) )+?)(?<!\\)\1(?!\1)/,
   subscript: /^(~)((?:[^~\s]|(?<=\\)\1|(?<=\\) )+?)(?<!\\)\1(?!\1)/,
-  footnoteIdentifier: /^\[\^([^\^\[\]\s]+?)(?<!\\)\]/
+  footnoteIdentifier: /^\[\^([^\^\[\]\s]+?)(?<!\\)\]/,
+  citation: /(\[([^[\]]*@[^[\]]+)\])|(@[\p{L}\d_][\p{L}\d_:.#$%&\-+?<>~\/]*)/u
 }
 
 // list of punctuation marks from common mark spec

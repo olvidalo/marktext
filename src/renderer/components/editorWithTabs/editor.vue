@@ -140,6 +140,9 @@ export default {
       frontmatterType: state => state.preferences.frontmatterType,
       superSubScript: state => state.preferences.superSubScript,
       footnote: state => state.preferences.footnote,
+      citations: state => state.preferences.citations,
+      citationLinks: state => state.preferences.citationLinks,
+      citationLinkTemplate: state => state.preferences.citationLinkTemplate,
       isGitlabCompatibilityEnabled: state => state.preferences.isGitlabCompatibilityEnabled,
       lineHeight: state => state.preferences.lineHeight,
       fontSize: state => state.preferences.fontSize,
@@ -282,6 +285,27 @@ export default {
       const { editor } = this
       if (value !== oldValue && editor) {
         editor.setOptions({ footnote: value }, true)
+      }
+    },
+
+    citations: function (value, oldValue) {
+      const { editor } = this
+      if (value !== oldValue && editor) {
+        editor.setOptions({ citations: value }, true)
+      }
+    },
+
+    citationLinks: function (value, oldValue) {
+      const { editor } = this
+      if (value !== oldValue && editor) {
+        editor.setOptions({ citationLinks: value }, true)
+      }
+    },
+
+    citationLinkTemplate: function (value, oldValue) {
+      const { editor } = this
+      if (value !== oldValue && editor) {
+        editor.setOptions({ citationLinkTemplate: value }, true)
       }
     },
 
@@ -525,6 +549,9 @@ export default {
         frontmatterType,
         superSubScript,
         footnote,
+        citations,
+        citationLinks,
+        citationLinkTemplate,
         isGitlabCompatibilityEnabled,
         hideQuickInsertHint,
         editorLineWidth,
@@ -573,6 +600,9 @@ export default {
         frontmatterType,
         superSubScript,
         footnote,
+        citations,
+        citationLinks,
+        citationLinkTemplate,
         isGitlabCompatibilityEnabled,
         hideQuickInsertHint,
         hideLinkPopup,

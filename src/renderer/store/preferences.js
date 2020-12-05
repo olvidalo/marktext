@@ -47,6 +47,9 @@ const state = {
   frontmatterType: '-',
   superSubScript: false,
   footnote: false,
+  citations: false,
+  citationLinks: true,
+  citationLinkTemplate: 'zotero://select/items/bbt:{{citekey}}',
   isGitlabCompatibilityEnabled: false,
   sequenceTheme: 'hand',
 

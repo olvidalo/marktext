@@ -37,7 +37,7 @@ const tokenizerFac = (src, beginRules, inlineRules, pos = 0, top, labels, option
   const tokens = []
   let pending = ''
   let pendingStartPos = pos
-  const { superSubScript, footnote } = options
+  const { superSubScript, footnote, citations } = options
   const pushPending = () => {
     if (pending) {
       tokens.push({
@@ -245,6 +245,48 @@ const tokenizerFac = (src, beginRules, inlineRules, pos = 0, top, labels, option
         continue
       }
     }
+
+    // citations
+    if (citations) {
+      const fullCitation = inlineRules.fullCitation.exec(src)
+      if (fullCitation) {
+        pushPending()
+        tokens.push({
+          type: 'fullCitation',
+          marker: fullCitation[0],
+          raw: fullCitation[0],
+          content: fullCitation[1],
+          range: {
+            start: pos,
+            end: pos + fullCitation[0].length
+          }
+        })
+        src = src.substring(fullCitation[0].length)
+        pos = pos + fullCitation[0].length
+        continue
+      }
+
+      // citation
+      const looseCitation = inlineRules.looseCitation.exec(src)
+      if (looseCitation) {
+        pushPending()
+        tokens.push({
+          type: 'citation',
+          raw: looseCitation[0],
+          marker: looseCitation[2],
+          range: {
+            start: pos,
+            end: pos + looseCitation[0].length
+          },
+          parent: tokens,
+          citeKey: looseCitation[3]
+        })
+        src = src.substring(looseCitation[0].length)
+        pos = pos + looseCitation[0].length
+        continue
+      }
+    }
+
     // image
     const imageTo = inlineRules.image.exec(src)
     correctUrl(imageTo)

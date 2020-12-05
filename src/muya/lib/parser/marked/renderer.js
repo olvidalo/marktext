@@ -48,6 +48,10 @@ Renderer.prototype.footnoteIdentifier = function (identifier, { footnoteId, foot
   return `<a href="#${footnoteId ? `fn${footnoteId}` : ''}" class="footnote-ref" id="fnref${footnoteIdentifierId}" role="doc-noteref"><sup>${order || identifier}</sup></a>`
 }
 
+Renderer.prototype.citation = function (key) {
+  return `<a href="#" class="citation-ref" id="citation${key}" role="doc-noteref"><sup>${key}</sup></a>`
+}
+
 Renderer.prototype.footnote = function (footnote) {
   return '<section class="footnotes" role="doc-endnotes">\n<hr />\n<ol>\n' + footnote + '</ol>\n</section>\n'
 }

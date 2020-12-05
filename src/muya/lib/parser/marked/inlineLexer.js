@@ -50,7 +50,7 @@ function InlineLexer (links, footnotes, options) {
 InlineLexer.prototype.output = function (src) {
   // src = src
   // .replace(/\u00a0/g, ' ')
-  const { disableInline, emoji, math, superSubScript, footnote } = this.options
+  const { disableInline, emoji, math, superSubScript, footnote, citations } = this.options
   if (disableInline) {
     return escape(src)
   }
@@ -88,6 +88,18 @@ InlineLexer.prototype.output = function (src) {
         }
 
         out += this.renderer.footnoteIdentifier(identifier, footnoteInfo)
+      }
+    }
+
+    // citations
+    if (citations) {
+      cap = this.rules.citation.exec(src)
+      if (cap) {
+        src = src.substring(cap[0].length)
+        lastChar = cap[0].charAt(cap[0].length - 1)
+        const key = cap[3] || cap[1]
+
+        out += this.renderer.citation(key)
       }
     }
 
