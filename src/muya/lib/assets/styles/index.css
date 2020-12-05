@@ -1279,6 +1279,13 @@ figure:not(.ag-active) pre.ag-paragraph.line-numbers {
   color: var(--editorColor80);
 }
 
+.ag-meta-or-ctrl .ag-crossref a {
+  cursor: pointer !important;
+}
+
+.ag-crossref:before {
+  content: '⮑';
+}
 .ag-inline-footnote-identifier a {
   color: var(--editorColor);
 }

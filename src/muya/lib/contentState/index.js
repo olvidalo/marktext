@@ -29,6 +29,7 @@ import imageCtrl from './imageCtrl'
 import linkCtrl from './linkCtrl'
 import dragDropCtrl from './dragDropCtrl'
 import footnoteCtrl from './footnoteCtrl'
+import crossrefCtrl from './crossrefCtrl'
 import importMarkdown from '../utils/importMarkdown'
 import Cursor from '../selection/cursor'
 import escapeCharactersMap, { escapeCharacters } from '../parser/escapeCharacter'
@@ -41,6 +42,7 @@ const prototypes = [
   backspaceCtrl,
   deleteCtrl,
   codeBlockCtrl,
+  crossrefCtrl,
   arrowCtrl,
   pasteCtrl,
   copyCutCtrl,

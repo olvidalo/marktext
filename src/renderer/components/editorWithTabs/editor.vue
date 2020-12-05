@@ -80,6 +80,7 @@ import { mapState } from 'vuex'
 import Muya from 'muya/lib'
 import TablePicker from 'muya/lib/ui/tablePicker'
 import QuickInsert from 'muya/lib/ui/quickInsert'
+import CrossrefPicker from '../../../muya/lib/ui/crossrefPicker'
 import CodePicker from 'muya/lib/ui/codePicker'
 import EmojiPicker from 'muya/lib/ui/emojiPicker'
 import ImagePathPicker from 'muya/lib/ui/imagePicker'
@@ -129,6 +130,7 @@ export default {
   computed: {
     ...mapState({
       preferences: state => state.preferences,
+      project: state => state.project,
       preferLooseListItem: state => state.preferences.preferLooseListItem,
       autoPairBracket: state => state.preferences.autoPairBracket,
       autoPairMarkdownSyntax: state => state.preferences.autoPairMarkdownSyntax,
@@ -539,6 +541,7 @@ export default {
       Muya.use(TablePicker)
       Muya.use(QuickInsert)
       Muya.use(CodePicker)
+      Muya.use(CrossrefPicker)
       Muya.use(EmojiPicker)
       Muya.use(ImagePathPicker)
       Muya.use(ImageSelector, {
@@ -582,7 +585,8 @@ export default {
         imageAction: this.imageAction.bind(this),
         imagePathPicker: this.imagePathPicker.bind(this),
         clipboardFilePath: guessClipboardFilePath,
-        imagePathAutoComplete: this.imagePathAutoComplete.bind(this)
+        imagePathAutoComplete: this.imagePathAutoComplete.bind(this),
+        crossrefAutoComplete: this.crossrefAutoComplete.bind(this)
       }
 
       if (/dark/i.test(theme)) {
@@ -644,8 +648,27 @@ export default {
 
       this.editor.on('format-click', ({ event, formatType, data }) => {
         const ctrlOrMeta = (isOsx && event.metaKey) || (!isOsx && event.ctrlKey)
+
         if (formatType === 'link' && ctrlOrMeta) {
           this.$store.dispatch('FORMAT_LINK_CLICK', { data, dirname: window.DIRNAME })
+        } else if (formatType === 'crossref' && ctrlOrMeta) {
+          const projectTree = this.project.projectTree
+          const search = (filename) => {
+            const stack = [projectTree]
+            while (stack.length) {
+              const node = stack.shift()
+              const file = node.files.find(file => file.name === filename || file.name === `${filename}.md`)
+              if (file) return file
+              node.folders && stack.push(...node.folders)
+            }
+          }
+          if (projectTree) {
+            const name = data.substr(2, data.length - 4)
+            const file = search(name)
+            if (file) {
+              this.$store.dispatch('CROSSREF_CLICK', { pathname: file.pathname })
+            }
+          }
         } else if (formatType === 'image' && ctrlOrMeta) {
           if (this.imageViewer) {
             this.imageViewer.destroy()
@@ -755,6 +778,32 @@ export default {
         const iconClass = f.type === 'directory' ? 'icon-folder' : 'icon-image'
         return Object.assign(f, { iconClass, text: f.file + (f.type === 'directory' ? '/' : '') })
       })
+    },
+
+    async crossrefAutoComplete (text) {
+      const projectTree = this.project.projectTree || []
+      const allFiles = []
+      const addFiles = files => files.forEach(file => allFiles.push(file))
+      const addFolder = folder => {
+        addFiles(folder.files)
+        folder.folders.forEach(addFolder)
+      }
+
+      if (projectTree) {
+        addFolder(projectTree)
+      }
+
+      return allFiles
+        .filter(file => {
+          if (!text) {
+            return true
+          } else {
+            return file.name.toLowerCase().includes(text.toLowerCase())
+          }
+        })
+        .map(file => ({
+          name: file.isMarkdown ? file.name.replace(/\.md$/, '') : file.name
+        }))
     },
 
     async imageAction (image, id, alt = '') {

@@ -245,6 +245,24 @@ const tokenizerFac = (src, beginRules, inlineRules, pos = 0, top, labels, option
         continue
       }
     }
+
+    const crossref = inlineRules.crossref.exec(src)
+    if (crossref) {
+      pushPending()
+      tokens.push({
+        type: 'crossref',
+        marker: crossref[0],
+        raw: crossref[0],
+        content: crossref[1],
+        range: {
+          start: pos,
+          end: pos + crossref[0].length
+        }
+      })
+      src = src.substring(crossref[0].length)
+      pos = pos + crossref[0].length
+      continue
+    }
     // image
     const imageTo = inlineRules.image.exec(src)
     correctUrl(imageTo)
