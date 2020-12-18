@@ -26,6 +26,11 @@ ipcMain.on('mt::ask-for-image-auto-path', (e, { pathname, src, id }) => {
     })
 })
 
+ipcMain.on('mt::ask-for-crossref-auto-link', (e, { pathname, src, id }) => {
+  const win = BrowserWindow.fromWebContents(e.sender)
+  return win.webContents.send(`mt::response-of-crossref-link-${id}`, [{ name: 'Horst' }, { name: 'Forsst' }])
+})
+
 export const edit = (win, type) => {
   if (win && win.webContents) {
     win.webContents.send('mt::editor-edit-action', type)

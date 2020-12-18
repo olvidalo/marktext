@@ -429,6 +429,13 @@ ipcMain.on('mt::format-link-click', (e, { data, dirname }) => {
   }
 })
 
+ipcMain.on('mt::crossref-click', (e, { pathname }) => {
+  if (isMarkdownFile(pathname)) {
+    const win = BrowserWindow.fromWebContents(e.sender)
+    return openFileOrFolder(win, pathname)
+  }
+})
+
 // --- commands -------------------------------------
 
 ipcMain.on('mt::cmd-open-file', e => {

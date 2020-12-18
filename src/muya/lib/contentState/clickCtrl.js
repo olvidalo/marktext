@@ -121,6 +121,9 @@ const clickCtrl = ContentState => {
                 href: parentLink
               }
             }
+          } else if (inlineNode.classList.contains('ag-crossref')) {
+            formatType = 'crossref'
+            data = inlineNode.textContent
           }
           break
         }
